@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000000">
+  <meta name="description" content="Tort Co interactive Encryption & Data Protection training course">
+  <title>Tort Co | Encryption & Data Protection</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <button class="icon-button mobile-menu" id="menuButton" aria-label="Open course outline" title="Course outline">☰</button>
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">T</span>
+        <span><strong>Tort Co</strong><small>Privacy & Security Training</small></span>
+      </div>
+      <div class="course-progress" aria-label="Course progress">
+        <span id="progressText">0% complete</span>
+        <div class="progress-track"><span id="progressBar"></span></div>
+      </div>
+      <button class="icon-button" id="transcriptButton" aria-label="Open narration transcript" title="Narration transcript">CC</button>
+    </header>
+
+    <aside class="sidebar" id="sidebar" aria-label="Course outline">
+      <div class="module-label">MODULE 1</div>
+      <h1>Encryption &amp; Data Protection</h1>
+      <p>~18 minutes</p>
+      <nav id="outline"></nav>
+      <button class="reset-button" id="resetButton">Reset progress</button>
+    </aside>
+
+    <main class="course-stage" id="courseStage" tabindex="-1"></main>
+
+    <footer class="course-controls">
+      <button class="icon-button" id="backButton" aria-label="Previous lesson" title="Previous">←</button>
+      <span id="lessonCounter">1 / 20</span>
+      <button class="primary-button" id="nextButton">Continue <span aria-hidden="true">→</span></button>
+    </footer>
+  </div>
+
+  <dialog id="transcriptDialog">
+    <div class="dialog-head">
+      <div><span class="eyebrow">NARRATION</span><h2 id="transcriptTitle">Transcript</h2></div>
+      <button class="icon-button" id="closeTranscript" aria-label="Close transcript" title="Close">×</button>
+    </div>
+    <div id="transcriptBody" class="transcript-body"></div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js" defer></script>
+</body>
+</html>
