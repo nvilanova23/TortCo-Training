@@ -1,0 +1,1 @@
+{"$schema":"./node_modules/wrangler/config-schema.json","name":"tort-co-encryption-training","compatibility_date":"2026-07-01","assets":{"directory":"./public","not_found_handling":"single-page-application"}}
