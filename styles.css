@@ -3,52 +3,36 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#000000">
-  <meta name="description" content="Tort Co interactive Encryption & Data Protection training course">
-  <title>Tort Co | Encryption & Data Protection</title>
+  <meta name="theme-color" content="#ff5b12">
+  <title>Tort Co | Encryption &amp; Data Protection</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="app-shell">
-    <header class="topbar">
-      <button class="icon-button mobile-menu" id="menuButton" aria-label="Open course outline" title="Course outline">☰</button>
-      <div class="brand">
-        <span class="brand-mark" aria-hidden="true">T</span>
-        <span><strong>Tort Co</strong><small>Privacy & Security Training</small></span>
-      </div>
-      <div class="course-progress" aria-label="Course progress">
-        <span id="progressText">0% complete</span>
-        <div class="progress-track"><span id="progressBar"></span></div>
-      </div>
-      <button class="icon-button" id="transcriptButton" aria-label="Open narration transcript" title="Narration transcript">CC</button>
-    </header>
-
-    <aside class="sidebar" id="sidebar" aria-label="Course outline">
-      <div class="module-label">MODULE 1</div>
-      <h1>Encryption &amp; Data Protection</h1>
-      <p>~18 minutes</p>
-      <nav id="outline"></nav>
-      <button class="reset-button" id="resetButton">Reset progress</button>
-    </aside>
-
-    <main class="course-stage" id="courseStage" tabindex="-1"></main>
-
-    <footer class="course-controls">
-      <button class="icon-button" id="backButton" aria-label="Previous lesson" title="Previous">←</button>
-      <span id="lessonCounter">1 / 20</span>
-      <button class="primary-button" id="nextButton">Continue <span aria-hidden="true">→</span></button>
-    </footer>
-  </div>
-
+  <header class="topbar">
+    <button class="icon-button menu-button" id="menuButton" aria-label="Open course outline" aria-expanded="false">☰</button>
+    <div class="brand"><b aria-hidden="true">T</b><span><strong>Tort Co</strong><small>Privacy &amp; Security Training</small></span></div>
+    <div class="progress"><span id="progressText">0% complete</span><i aria-hidden="true"><em id="progressBar"></em></i></div>
+    <button class="icon-button" id="transcriptButton" aria-label="Open narration transcript">CC</button>
+  </header>
+  <aside id="sidebar">
+    <span class="eyebrow">MODULE 1</span>
+    <h1>Encryption &amp;<br>Data Protection</h1>
+    <p>Interactive course · about 25 minutes</p>
+    <nav id="outline" aria-label="Course outline"></nav>
+    <button class="text-button" id="resetButton">Reset progress</button>
+  </aside>
+  <button class="scrim" id="scrim" aria-label="Close course outline"></button>
+  <main id="stage" tabindex="-1"></main>
+  <footer>
+    <button class="icon-button" id="backButton" aria-label="Previous lesson">←</button>
+    <span id="counter" aria-live="polite"></span>
+    <button class="primary" id="nextButton">Continue →</button>
+  </footer>
   <dialog id="transcriptDialog">
-    <div class="dialog-head">
-      <div><span class="eyebrow">NARRATION</span><h2 id="transcriptTitle">Transcript</h2></div>
-      <button class="icon-button" id="closeTranscript" aria-label="Close transcript" title="Close">×</button>
-    </div>
-    <div id="transcriptBody" class="transcript-body"></div>
+    <div class="dialog-head"><h2>Narration transcript</h2><button class="icon-button" id="closeTranscript" aria-label="Close transcript">×</button></div>
+    <p id="transcript"></p>
   </dialog>
-
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div id="toast" role="status" aria-live="polite"></div>
   <script src="app.js" defer></script>
 </body>
 </html>

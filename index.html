@@ -1,338 +1,86 @@
-const STORAGE_KEY = "tortco-encryption-course-v1";
-
+const A = "assets/";
 const lessons = [
-  { section: "Start", title: "Course introduction", type: "cover", narration: "Welcome to Encryption and Data Protection. In this course, you will see how encryption protects information, how it applies at Tort Co, and what each of us can do to reduce risk." },
-  { section: "Start", title: "Choose your role", type: "role", narration: "Encryption is not only a technical topic. Technical employees implement controls. Non-technical employees and volunteers use approved systems and recognize risks. Leaders make decisions that support secure practices." },
-  { section: "Start", title: "Learning objectives", type: "objectives", narration: "By the end of this course, you should be able to define encryption, identify when it should be used, recognize common risks, explain how Tort Co uses it, and apply secure data handling practices." },
-  { section: "Basics", title: "Video: Encryption in plain language", type: "video1", narration: "Encryption converts readable information into an unreadable format. Only a person or system with the correct key can return it to its original form. Encryption does not make risk disappear, but it can make stolen information unusable." },
-  { section: "Basics", title: "What is encryption?", type: "definition", narration: "Encryption is the process of converting readable information into an unreadable format. Only individuals or systems with the correct key can convert the information back into its original form. Think of encryption as a locked safe." },
-  { section: "Basics", title: "Quick knowledge check", type: "definitionCheck", narration: "Choose the statement that best defines encryption." },
-  { section: "Protection", title: "Why encryption matters", type: "why", narration: "Without encryption, data can be stolen, sensitive information can be exposed, user trust can be lost, and regulatory investigations may occur. Encryption reduces these risks." },
-  { section: "Protection", title: "Lost laptop decision", type: "laptopDecision", narration: "Imagine that a laptop containing user information is stolen. Without encryption, information can be viewed immediately. With encryption, the information remains protected even if the device is lost." },
-  { section: "Protection", title: "Video: When a device goes missing", type: "video2", narration: "A lost device is a security issue and a race against time. Encryption can keep stored information unreadable, but the incident still needs to be reported immediately." },
-  { section: "Protection", title: "Three types of encryption", type: "types", narration: "Encryption at rest protects stored information. Encryption in transit protects information while it moves. Encryption in use protects information while applications process it." },
-  { section: "Protection", title: "Encryption at rest", type: "atRest", narration: "Encryption at rest protects information stored on a device or system, including mobile application data, cloud storage, company laptops, and backup files." },
-  { section: "Protection", title: "Encryption in transit", type: "transit", narration: "Encryption in transit protects information moving between locations. Common technologies include TLS, HTTPS, and secure APIs." },
-  { section: "Practice", title: "How encryption works", type: "order", narration: "Information is entered, an algorithm transforms it, encrypted information is stored or transmitted, and authorized users use a key to decrypt it." },
-  { section: "Practice", title: "Tort Co example", type: "tortco", narration: "Tort Co follows a data minimization strategy. The less information collected and stored, the lower the overall risk. Information that remains still requires protection." },
-  { section: "Practice", title: "Spot the risk", type: "risks", narration: "Risky practices include storing information in plain text, using unsecured channels, sharing passwords by email, using unauthorized applications, and assuming vendors encrypt data automatically." },
-  { section: "Practice", title: "Developer scenario", type: "developerDecision", narration: "A developer stores user information in a plain-text file. If the server is compromised, the information could be exposed." },
-  { section: "Practice", title: "Your responsibilities", type: "responsibilities", narration: "All team members, managers, and technical teams have different responsibilities, but everyone plays a role in protecting information." },
-  { section: "Quiz", title: "Key takeaways", type: "recap", narration: "Encryption protects information from unauthorized access, should be used for sensitive stored or transmitted information, reduces risk, and requires participation from every team member." },
-  { section: "Quiz", title: "Final quiz", type: "quiz", narration: "The final quiz has five questions. A score of four out of five, or eighty percent, is required to pass." },
-  { section: "Complete", title: "Course completion", type: "completion", narration: "Congratulations. You have completed Module One: Encryption and Data Protection." }
+ {t:"Welcome to Module 1",type:"intro",k:"Course introduction",n:"Welcome to Encryption and Data Protection. This course is for everyone at Tort Co, whether you build systems, lead a team, volunteer, or support daily operations. You will practice small decisions that keep information safer.",d:"About 25 minutes · 27 short lessons"},
+ {t:"Choose your perspective",type:"role",k:"Your role",n:"Your responsibilities may differ, but protecting information is shared work. Choose the role closest to yours. The examples will make sense from any perspective."},
+ {t:"What you will be able to do",type:"objectives",k:"Learning goals",n:"By the end, you will be able to explain encryption, recognize sensitive information, choose safer sharing methods, approve access thoughtfully, and respond quickly when something goes wrong."},
+ {t:"What Encryption Protects",type:"video",k:"Human video",dur:"60 seconds",img:"encryption-transform.png",n:"Meet Priya, a Tort Co privacy officer. She connects encryption to the ordinary moments when information is stored, sent, or lost.",script:"Hi, I’m Priya from Tort Co. Think of encryption as turning readable information into a locked form. The right system and permission unlock it for the people who need it. If a laptop is lost or a message is intercepted, encryption helps keep the information unreadable. It is powerful, but it still needs good access choices and careful sharing.",notes:"Human presenter on camera. Cut to a laptop, secure message, and lock graphic. Use captions. Keep the tone reassuring and practical.",q:"Which idea matters most?",opts:["Encryption helps protect data when devices or messages are exposed","Encryption means access controls are no longer needed","Encryption prevents every possible security incident"],a:0},
+ {t:"Encryption, in plain language",type:"teach",k:"Encryption basics",n:"Encryption changes readable data into a coded form. Authorized people and approved systems can turn it back into something useful. It is like putting information in a locked container before storing or moving it.",x:"A Tort Co case file stored in an approved encrypted system is unreadable to someone who steals the storage device.",r:"Encryption reduces exposure; it does not replace careful access and sharing."},
+ {t:"Quick check: the locked container",type:"check",k:"Knowledge check",n:"Let’s check the core idea. Choose the answer that best describes encryption.",q:"What does encryption do?",opts:["It converts readable data into protected coded data","It automatically deletes sensitive data","It gives every employee access to the same information"],a:0,why:"Correct. Encryption makes data unreadable without the proper key or authorized system."},
+ {t:"At rest and in transit",type:"teach",k:"Two moments",n:"Data at rest is sitting on a laptop, phone, server, or backup. Data in transit is moving through email, messaging, an upload, or another network connection. Both moments need protection.",x:"A downloaded report is at rest on a device. The same report is in transit while it is uploaded to an approved portal.",r:"Ask two questions: where will this data live, and how will it travel?"},
+ {t:"Protecting local device data",type:"teach",k:"Devices",n:"Local copies can quietly multiply. Downloads, browser caches, test databases, and synced folders may hold information outside its intended system. Use approved encrypted devices and remove copies when the work is done.",x:"A developer uses approved synthetic data for testing instead of downloading a real customer dataset to a personal laptop.",r:"Keep real data in approved systems whenever possible."},
+ {t:"Devon’s local test",type:"scenario",k:"Decision point",person:"Devon · Developer",img:"lost-laptop.png",n:"Devon needs to reproduce a bug and considers copying production records to a local test app. What should happen next?",s:"The records include names and account activity. Devon’s laptop is company-managed, but the local app has not been approved for production data.",risk:"A new local copy may bypass retention, access, and monitoring controls.",q:"What is Devon’s best next step?",opts:["Use synthetic or de-identified data and ask Security if real data is truly necessary","Copy all records because the laptop is encrypted","Send the records to a personal cloud drive for easier testing"],a:0,action:"Use synthetic or de-identified data first. Escalate any exceptional need before creating a local copy."},
+ {t:"What counts as sensitive?",type:"teach",k:"Sensitive data",n:"Sensitive information is broader than passwords. It can include names, contact details, case records, financial data, identifiers, health information, access tokens, internal strategy, and information people expect Tort Co to protect.",x:"A screenshot showing a customer’s name, email, and support issue contains sensitive information even if no password appears.",r:"Consider the person, context, and possible harm, not only the file label."},
+ {t:"Sharing Data Safely",type:"video",k:"Human video",dur:"75 seconds",img:"scenario-sharing.png",n:"Maria, a Tort Co volunteer, needs help with a confusing screen. Her first instinct is to post a screenshot in a large chat channel.",script:"Hi, I’m Maria. Before I share a screenshot, I pause and scan the whole image, including tabs, notifications, names, and account details. I crop or redact anything the recipient does not need, then use the approved channel with the smallest appropriate audience. If I accidentally share too much, I do not hide it. I remove access if I can and report it right away.",notes:"Show Maria reviewing a realistic mock screenshot. Zoom into a name, browser tab, and notification before showing redaction and the approved channel. Include captions.",q:"What should Maria do before sharing?",opts:["Remove unnecessary details and use the approved channel","Post first, then check whether anything sensitive was visible","Send it to the largest group so help arrives faster"],a:0},
+ {t:"Maria’s screenshot",type:"scenario",k:"Decision point",person:"Maria · Volunteer",img:"scenario-sharing.png",n:"Maria already posted the screenshot and then notices a customer email address in the corner. What should she do?",s:"The screenshot is in an internal group chat with more people than needed.",risk:"The customer information has been exposed to an unnecessary audience.",q:"Choose the strongest response.",opts:["Delete or restrict it if possible, notify the right Tort Co contact, and explain what was visible","Crop the original image and pretend the first post did not happen","Wait to see whether anyone mentions it"],a:0,action:"Limit further access and report promptly. Early reporting helps Tort Co respond well; it is not about blame."},
+ {t:"Strong passwords and MFA",type:"teach",k:"Account security",n:"Use a unique password or passphrase for every work account and store it in the approved password manager. Multi-factor authentication adds another check, making a stolen password less useful.",x:"A staff member denies an unexpected MFA prompt and reports it instead of approving it to stop the notifications.",r:"Never approve an MFA request you did not start."},
+ {t:"Least privilege",type:"teach",k:"Access",n:"Least privilege means giving people only the access they need, for only as long as they need it. Access should match current responsibilities and be reviewed when roles or projects change.",x:"A temporary project lead receives case-folder access for 30 days instead of permanent access to the whole drive.",r:"Access is a business decision, not a courtesy."},
+ {t:"Access Approval Done Right",type:"video",k:"Human video",dur:"60 seconds",img:"scenario-access.png",n:"Jordan leads a busy team. A familiar colleague requests broad access and says the work is urgent. Jordan pauses before approving.",script:"I’m Jordan, a team lead. Before I approve access, I confirm the person, the business need, the exact data required, and how long access should last. Urgency does not erase those questions. I choose the smallest permission that supports the work and set a review or end date. If the request is unclear, I ask the data owner or Security.",notes:"Human presenter with a simple access-request screen beside them. Highlight scope, owner, and expiration date. Include captions.",q:"What should drive an access approval?",opts:["Verified need, minimum scope, and an appropriate duration","The requester’s seniority","How quickly the approval button can be clicked"],a:0},
+ {t:"Jordan’s approval request",type:"scenario",k:"Decision point",person:"Jordan · Team lead",img:"scenario-access.png",n:"Jordan receives a request for permanent access to an entire customer folder. The requester needs one subfolder for a two-week project.",s:"The request is legitimate, but its scope and duration are too broad.",risk:"Excess access increases the impact of mistakes, compromised accounts, and future role changes.",q:"What should Jordan approve?",opts:["The needed subfolder with a two-week end date","The entire folder permanently because the requester is trusted","Nothing; legitimate access should never be granted"],a:0,action:"Approve the minimum useful access, add an end date, and document the business purpose."},
+ {t:"Share files and screenshots safely",type:"teach",k:"Secure sharing",n:"Use approved tools, verify recipients, limit permissions, and set an expiration date when available. For screenshots, inspect the full image, crop tightly, and redact information the recipient does not need.",x:"An analyst shares a link restricted to two reviewers instead of attaching a customer report to a broad email thread.",r:"Share the minimum information with the minimum audience."},
+ {t:"Vendors and tools share the responsibility",type:"teach",k:"Third parties",n:"Encryption claims alone do not make a tool appropriate. Before placing Tort Co data in a new service, confirm approval, data use, access controls, retention, incident response, and whether the vendor uses data to train AI.",x:"Priya pauses a new transcription tool rollout until the vendor’s privacy and security terms are reviewed.",r:"Do not test a new tool with real Tort Co data before approval."},
+ {t:"Reporting a Security Concern",type:"video",k:"Human video",dur:"60 seconds",img:"scenario-vendor-incident.png",n:"Avery notices unexpected access activity in a vendor dashboard. The evidence is incomplete, but the concern is real.",script:"I’m Avery. When something looks wrong, I record what I observed, when it happened, and which system or information may be involved. I avoid investigating in ways that could change evidence. Then I use Tort Co’s reporting channel immediately. You do not need proof or perfect wording. A quick, factual report gives the response team the best chance to limit harm.",notes:"Human presenter in a calm office setting. Cut to a mock log entry and a simple report form. Avoid dramatic alarm imagery. Include captions.",q:"When should Avery report?",opts:["As soon as there is a reasonable concern","Only after proving a breach occurred","At the next scheduled team meeting"],a:0},
+ {t:"Priya reviews a new tool",type:"scenario",k:"Decision point",person:"Priya · Privacy officer",img:"scenario-vendor-incident.png",n:"A team wants to upload customer calls into a helpful AI note-taking tool. The vendor says data is encrypted.",s:"The tool has not completed Tort Co’s review, and its training-data settings are unclear.",risk:"Encryption does not answer how data is used, retained, shared, or removed.",q:"What should Priya recommend?",opts:["Pause real-data use until the tool and settings are approved","Approve it because the vendor mentions encryption","Let each employee decide based on convenience"],a:0,action:"Complete the privacy and security review before real data enters the tool."},
+ {t:"When sharing goes wrong",type:"teach",k:"Responding",n:"Mistakes happen. Act quickly: stop or limit the sharing if possible, preserve useful facts, and report through Tort Co’s approved channel. Do not delay because you feel embarrassed or lack every detail.",x:"A staff member recalls an email, removes a public link, and immediately reports the recipients, file, and time sent.",r:"Fast, factual reporting is a protective action."},
+ {t:"Elise sends the wrong attachment",type:"scenario",k:"Decision point",person:"Elise · Staff member",img:"scenario-sharing.png",n:"Elise sends a spreadsheet to a trusted partner, then realizes it includes an extra tab with customer contact details.",s:"The partner was meant to receive the main report, but not the customer tab.",risk:"A legitimate recipient now has information they did not need or expect.",q:"What should Elise do first?",opts:["Try to restrict or recall the file, then report exactly what was sent and to whom","Quietly send a corrected version and say nothing about the first file","Wait for the partner to confirm whether they opened the extra tab"],a:0,action:"Limit access if possible and report immediately with the recipient, file, and time. Prompt facts help Tort Co respond."},
+ {t:"Avery spots unusual activity",type:"scenario",k:"Decision point",person:"Avery · Analyst",img:"scenario-vendor-incident.png",n:"Avery sees repeated downloads from a service account at an unusual hour. There may be a valid batch job, but Avery is not sure.",s:"The logs show unusual behavior involving customer records.",risk:"Waiting for certainty could allow a real incident to continue.",q:"What should Avery do?",opts:["Capture the relevant facts and report the concern promptly","Delete the log entries to protect customer privacy","Message the whole company with an unconfirmed breach warning"],a:0,action:"Report the observation through the correct channel and let the response team investigate."},
+ {t:"Privacy, trust, and compliance",type:"teach",k:"Why it matters",n:"Good data protection respects people, supports reliable work, and demonstrates Tort Co’s commitments to customers, partners, staff, and regulators. It also makes cross-team decisions clearer because ownership and expectations are visible.",x:"Product, Legal, Privacy, and Security review a new feature together before launch instead of discovering concerns afterward.",r:"Privacy and security are shared business objectives."},
+ {t:"Your five-part pause",type:"recap",k:"Recap",n:"Before handling data, pause for five questions: Is it sensitive? Is this tool approved? Is access limited? Is the sharing method secure? Would I know how to report a mistake? That short pause prevents many avoidable problems."},
+ {t:"Final knowledge check",type:"quiz",k:"Final quiz",n:"Use your judgment across five workplace situations. You need 80 percent to complete the module.",questions:[
+  ["A colleague needs one customer file for today. What is best?",["Grant access to that file for the needed period","Grant permanent access to the full drive","Send it through a personal account"],0],
+  ["You notice customer data in an unapproved AI tool. What do you do?",["Stop adding data and report the situation promptly","Delete your browser history","Wait until the next annual review"],0],
+  ["An unexpected MFA prompt appears. What is safest?",["Deny it and report the unexpected request","Approve it to make it disappear","Turn off MFA"],0],
+  ["A screenshot contains details the recipient does not need. What should happen?",["Crop or redact it and use an approved channel","Share it unchanged because it is internal","Post it publicly with no names in the caption"],0],
+  ["A laptop is encrypted. Can production data be copied into any local app?",["No; the app and data use still need approval","Yes; device encryption removes every other requirement","Yes, if the employee deletes it eventually"],0]
+ ]},
+ {t:"Module complete",type:"complete",k:"Completion",n:"You have finished Encryption and Data Protection. Add your name to create a completion record with your date and quiz score. You can print it or save it as a PDF from the print window."}
 ];
 
-const defaultState = () => ({
-  current: 0,
-  visited: [0],
-  role: "",
-  interactions: {},
-  videos: {},
-  quizIndex: 0,
-  quizAnswers: {},
-  quizScore: 0,
-  passed: false,
-  completedAt: null
-});
-
-let state = loadState();
-let activeVideoTimer = null;
-let selectedAnswer = null;
-let orderItems = [2, 0, 3, 1];
-
-const stage = document.querySelector("#courseStage");
-const outline = document.querySelector("#outline");
-const nextButton = document.querySelector("#nextButton");
-const backButton = document.querySelector("#backButton");
-const lessonCounter = document.querySelector("#lessonCounter");
-const progressBar = document.querySelector("#progressBar");
-const progressText = document.querySelector("#progressText");
-const transcriptDialog = document.querySelector("#transcriptDialog");
-
-function loadState() {
-  try { return { ...defaultState(), ...JSON.parse(localStorage.getItem(STORAGE_KEY)) }; }
-  catch { return defaultState(); }
+const state = JSON.parse(localStorage.getItem("tort-course-v2") || "null") || {i:0,done:[],answers:{},role:"",score:null};
+const $ = id => document.getElementById(id);
+const stage=$("stage"), next=$("nextButton"), back=$("backButton"), outline=$("outline");
+function save(){localStorage.setItem("tort-course-v2",JSON.stringify(state));}
+function esc(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function mark(){if(!state.done.includes(state.i))state.done.push(state.i);save();}
+function answered(){return state.answers[state.i] !== undefined;}
+function choiceBlock(l, prefix="answer") { return `<fieldset class="choices"><legend>${esc(l.q)}</legend>${l.opts.map((o,j)=>`<label><input type="radio" name="${prefix}" value="${j}" ${state.answers[state.i]===j?"checked":""}><span>${esc(o)}</span></label>`).join("")}</fieldset><button class="secondary submit-answer">Submit answer</button><div class="feedback" role="status"></div>`; }
+function shell(l,body){return `<article><div class="lesson-label">${esc(l.k)}</div><h2>${esc(l.t)}</h2>${body}</article>`;}
+function render(){
+ const l=lessons[state.i]; let body="";
+ if(l.type==="intro") body=`<div class="hero"><img src="${A}shared-responsibility.png" alt="Tort Co colleagues collaborating around protected information"><div><p class="lead">Protect information. Support good decisions. Earn trust.</p><p>${esc(l.n)}</p><div class="meta">${esc(l.d)}</div><button class="primary begin">Start module →</button></div></div>`;
+ else if(l.type==="role") body=`<p class="lead">${esc(l.n)}</p><div class="role-grid">${["Technical team","Staff or volunteer","Leadership"].map(r=>`<button class="role ${state.role===r?"selected":""}">${r}</button>`).join("")}</div><p class="hint">Choose one to continue. Your selection does not change the course content.</p>`;
+ else if(l.type==="objectives") body=`<p class="lead">${esc(l.n)}</p><div class="objective-grid">${["Explain encryption clearly","Recognize sensitive data","Share with care","Approve access thoughtfully","Report concerns promptly"].map((x,i)=>`<div><b>0${i+1}</b><span>${x}</span></div>`).join("")}</div>`;
+ else if(l.type==="teach") body=`<div class="teaching"><div><p class="lead">${esc(l.n)}</p><div class="example"><span>Tort Co example</span><p>${esc(l.x)}</p></div></div><div class="takeaway"><span>Remember</span><strong>${esc(l.r)}</strong></div></div>`;
+ else if(l.type==="video") body=`<div class="video-grid"><div class="video-frame"><img src="${A}${l.img}" alt="Workplace scene for ${esc(l.t)}"><span>Human-recorded video placeholder</span><button class="play" aria-label="Future video placeholder">▶</button><small>${l.dur}</small></div><div><p class="lead">${esc(l.n)}</p><details><summary>Suggested presenter script</summary><p>${esc(l.script)}</p></details><details><summary>Speaker and production notes</summary><p>${esc(l.notes)}</p></details></div></div>${choiceBlock(l,"video")}`;
+ else if(l.type==="check") body=`<p class="lead">${esc(l.n)}</p>${choiceBlock(l,"check")}`;
+ else if(l.type==="scenario") body=`<div class="scenario"><img src="${A}${l.img}" alt="${esc(l.person)} in a Tort Co workplace situation"><div><span class="person">${esc(l.person)}</span><p class="lead">${esc(l.n)}</p><dl><dt>Situation</dt><dd>${esc(l.s)}</dd><dt>Risk</dt><dd>${esc(l.risk)}</dd></dl></div></div>${choiceBlock(l,"scenario")}`;
+ else if(l.type==="recap") body=`<p class="lead">${esc(l.n)}</p><div class="pause-grid">${["Sensitive?","Approved?","Limited?","Secure?","Reportable?"].map((x,i)=>`<div><b>${i+1}</b>${x}</div>`).join("")}</div>`;
+ else if(l.type==="quiz") body=quizHTML(l);
+ else if(l.type==="complete") body=certificateHTML(l);
+ stage.innerHTML=shell(l,body); bind(l); updateChrome(l); stage.focus();
 }
-
-function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-function markInteraction(key, value = true) { state.interactions[key] = value; saveState(); updateControls(); }
-function isDone(key) { return Boolean(state.interactions[key]); }
-function percent() { return Math.round((new Set(state.visited).size / lessons.length) * 100); }
-
-function escapeHtml(text) {
-  return String(text).replace(/[&<>'"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[c]));
+function quizHTML(l){const qa=state.quiz||{};return `<p class="lead">${esc(l.n)}</p><div class="quiz-list">${l.questions.map((q,i)=>`<fieldset><legend><span>${i+1}</span>${esc(q[0])}</legend>${q[1].map((o,j)=>`<label><input type="radio" name="q${i}" value="${j}" ${qa[i]===j?"checked":""}><span>${esc(o)}</span></label>`).join("")}</fieldset>`).join("")}</div><button class="primary submit-quiz">Score my quiz</button><div class="feedback quiz-feedback" role="status"></div>`;}
+function certificateHTML(l){const date=new Intl.DateTimeFormat("en-US",{dateStyle:"long"}).format(new Date());return `<p class="lead">${esc(l.n)}</p><div class="certificate" id="certificate"><div class="cert-mark">T</div><span>Certificate of completion</span><h3>Encryption &amp; Data Protection</h3><p>This certifies that</p><input id="learnerName" aria-label="Your full name" placeholder="Enter your full name" value="${esc(state.name||"")}"><div class="cert-details"><b>${date}</b><b>${state.score ?? 0}% quiz score</b></div><small>Tort Co Privacy &amp; Security Training · Module 1</small></div><div class="certificate-actions"><button class="primary print-cert">Print or save PDF</button><button class="secondary save-record">Download completion record</button></div>`;}
+function bind(l){
+ document.querySelector(".begin")?.addEventListener("click",goNext);
+ document.querySelectorAll(".role").forEach(b=>b.addEventListener("click",()=>{state.role=b.textContent;mark();render();}));
+ document.querySelector(".submit-answer")?.addEventListener("click",()=>submitAnswer(l));
+ document.querySelectorAll(".quiz-list input").forEach(x=>x.addEventListener("change",()=>{state.quiz=state.quiz||{};state.quiz[x.name.slice(1)]=Number(x.value);save();}));
+ document.querySelector(".submit-quiz")?.addEventListener("click",()=>scoreQuiz(l));
+ document.querySelector(".print-cert")?.addEventListener("click",()=>{saveName();window.print();});
+ document.querySelector(".save-record")?.addEventListener("click",downloadRecord);
+ $("learnerName")?.addEventListener("input",saveName);
 }
-
-function shell(kicker, heading, lead, body, className = "") {
-  return `<section class="lesson ${className}"><span class="eyebrow">${kicker}</span><h2>${heading}</h2>${lead ? `<p class="lead">${lead}</p>` : ""}${body}</section>`;
-}
-
-function render() {
-  clearInterval(activeVideoTimer);
-  activeVideoTimer = null;
-  selectedAnswer = null;
-  const lesson = lessons[state.current];
-  state.visited = [...new Set([...state.visited, state.current])];
-  saveState();
-  stage.innerHTML = renderers[lesson.type]();
-  stage.focus({ preventScroll: true });
-  renderOutline();
-  updateControls();
-  bindLessonEvents();
-  document.querySelector("#transcriptTitle").textContent = lesson.title;
-  document.querySelector("#transcriptBody").textContent = lesson.narration;
-}
-
-function renderOutline() {
-  outline.innerHTML = lessons.map((l, i) => `<button class="outline-item ${i === state.current ? "active" : ""} ${state.visited.includes(i) ? "visited" : ""}" data-index="${i}"><span>${state.visited.includes(i) ? "✓" : i + 1}</span><span>${escapeHtml(l.title)}</span></button>`).join("");
-  outline.querySelectorAll("button").forEach(btn => btn.addEventListener("click", () => go(Number(btn.dataset.index))));
-}
-
-function requiredComplete(index = state.current) {
-  const type = lessons[index].type;
-  const gates = {
-    role: () => Boolean(state.role),
-    video1: () => Boolean(state.videos.video1),
-    video2: () => Boolean(state.videos.video2),
-    definitionCheck: () => isDone("definitionCheck"),
-    laptopDecision: () => isDone("laptopDecision"),
-    types: () => isDone("types"),
-    order: () => isDone("order"),
-    risks: () => isDone("risks"),
-    developerDecision: () => isDone("developerDecision"),
-    responsibilities: () => isDone("responsibilities"),
-    quiz: () => state.passed
-  };
-  return gates[type] ? gates[type]() : true;
-}
-
-function updateControls() {
-  const p = percent();
-  progressBar.style.width = `${p}%`;
-  progressText.textContent = `${p}% complete`;
-  lessonCounter.textContent = `${state.current + 1} / ${lessons.length}`;
-  backButton.disabled = state.current === 0;
-  nextButton.disabled = !requiredComplete();
-  nextButton.style.visibility = state.current === lessons.length - 1 ? "hidden" : "visible";
-}
-
-function go(index) {
-  if (index < 0 || index >= lessons.length) return;
-  state.current = index;
-  saveState();
-  render();
-  document.querySelector("#sidebar").classList.remove("open");
-}
-
-function showToast(message) {
-  const toast = document.querySelector("#toast");
-  toast.textContent = message;
-  toast.classList.add("show");
-  setTimeout(() => toast.classList.remove("show"), 2400);
-}
-
-function answersHtml(answers) {
-  return `<div class="answer-list">${answers.map((a, i) => `<button class="answer" data-answer="${i}"><b>${String.fromCharCode(65 + i)}</b><span>${a}</span></button>`).join("")}</div>`;
-}
-
-const renderers = {
-  cover: () => `<section class="lesson hero-grid"><div><span class="eyebrow">TORT CO PRIVACY & SECURITY TRAINING</span><h2>Encryption &amp;<br>Data Protection</h2><p class="lead">An interactive course for every role.</p><p class="meta">~18 minutes &nbsp;|&nbsp; 2 animated explainers &nbsp;|&nbsp; 7 interactions &nbsp;|&nbsp; final quiz</p><button class="primary-button" data-action="start">Start course →</button></div><img class="hero-image" src="assets/encryption-transform.png" alt="Readable information transforming into encrypted data through a key"></section>`,
-  role: () => shell("CHOOSE YOUR LENS", "Who are you learning as today?", "The core responsibilities apply to everyone. Examples adapt to the lens you select.", `<div class="option-grid">${[
-    ["technical", "Technical employee", "Developers, administrators, analysts, and system owners"],
-    ["general", "Non-technical or volunteer", "Operations, customer-facing, support, and volunteer roles"],
-    ["leader", "Leader or manager", "People managers, executives, and decision makers"]
-  ].map(r => `<button class="option-card ${state.role === r[0] ? "selected" : ""}" data-role="${r[0]}"><h3>${r[1]}</h3><p>${r[2]}</p></button>`).join("")}</div><p class="hint">Select one role lens to continue.</p>`),
-  objectives: () => shell("WELCOME", "What you will be able to do", "By the end of this module, you will be able to:", `<div class="objectives">${[
-    "Define encryption in simple terms", "Identify situations where encryption should be used", "Recognize common encryption risks", "Explain how Tort Co uses encryption to protect information", "Apply secure data handling practices in your daily work"
-  ].map((x, i) => `<div class="objective"><span class="number">${i + 1}</span><span>${x}</span></div>`).join("")}</div>`),
-  video1: () => renderVideo("video1", "VIDEO 01 · 45 SEC", "Encryption in plain language", "Readable data becomes protected data. The correct key makes it readable again.", "assets/encryption-transform.png", ["Readable information enters the process.", "An encryption algorithm transforms the data.", "The correct key makes authorized access possible.", "Encrypted data is unusable to unauthorized people."]),
-  definition: () => shell("CORE CONCEPT", "What is encryption?", "Encryption converts readable information into an unreadable format.", `<div class="image-copy"><div><strong>Only individuals or systems with the correct key can convert information back into its original form.</strong><p class="lead">Think of encryption as a locked safe. Anyone can see the safe, but only someone with the correct key can open it.</p></div><img class="media-image" src="assets/encryption-transform.png" alt="Encryption transformation"></div>`),
-  definitionCheck: () => shell("QUICK INTERACTION", "Which statement is accurate?", "Choose one answer, then select Submit.", `${answersHtml(["Encryption is the same as making a backup.", "Encryption converts readable information into a protected format.", "Encryption is another name for a password."])}<button class="primary-button submit-answer" data-correct="1" data-key="definitionCheck">Submit</button><div id="feedback"></div>`),
-  why: () => shell("WHY IT MATTERS", "Encryption protects trust as well as data", "Organizations collect and process information every day.", `<div class="content-grid">${[
-    ["Data can be stolen", "Without protection, information may be readable immediately."], ["Sensitive information can be exposed", "Exposure can affect users, staff, and operations."], ["User trust can be lost", "People expect Tort Co to protect what they share."], ["Regulatory investigations may occur", "Weak controls can create legal and operational consequences."]
-  ].map(x => `<article class="content-block"><h3>${x[0]}</h3><p>${x[1]}</p></article>`).join("")}</div>`),
-  laptopDecision: () => shell("DECISION POINT", "A laptop containing user information is missing", "What changes if the device is encrypted?", `<div class="decision-grid"><img class="media-image" src="assets/lost-laptop.png" alt="Employee notices a laptop left in a public place"><div>${answersHtml(["Nothing. The information can always be viewed.", "The information remains protected even if the device is lost.", "Encryption only matters while the laptop is online."])}<button class="primary-button submit-answer" data-correct="1" data-key="laptopDecision">Make decision</button><div id="feedback"></div></div></div>`),
-  video2: () => renderVideo("video2", "VIDEO 02 · 45 SEC", "When a device goes missing", "Encryption can change the impact. Fast reporting still matters.", "assets/lost-laptop.png", ["A device containing user information is missing.", "Encryption can keep stored information unreadable.", "Encryption does not replace incident reporting.", "Report quickly so Tort Co can respond."]),
-  types: () => shell("EXPLORE", "Three ways encryption protects information", "Open all three topics to continue.", `<div class="tab-row">${[
-    ["rest", "At rest", "Protects stored information: hard drives, databases, mobile devices, cloud storage, and backups."], ["transit", "In transit", "Protects information moving between systems: TLS, HTTPS, secure APIs, and email transmission."], ["use", "In use", "Protects information while applications process it. This is a developing area of information security."]
-  ].map(x => `<button class="tab-button ${(state.interactions.typeTabs || []).includes(x[0]) ? "opened" : ""}" data-tab="${x[0]}"><h3>${x[1]}</h3><p>${x[2]}</p></button>`).join("")}</div><p class="hint" id="tabStatus">${(state.interactions.typeTabs || []).length} of 3 topics opened</p>`),
-  atRest: () => shell("ENCRYPTION AT REST", "Protect stored information", "If a device is lost or stolen, encrypted information remains protected.", `<div class="circle-row">${["Mobile application data", "Cloud storage", "Company laptops", "Backup files"].map(x => `<div class="circle-item">${x}</div>`).join("")}</div>`),
-  transit: () => shell("ENCRYPTION IN TRANSIT", "Protect information while it moves", "HTTPS helps prevent unauthorized individuals from viewing transmitted information.", `<div class="flow"><strong>Your device</strong><div class="channel"><strong>TLS / HTTPS / secure API</strong><p>Protected while moving</p></div><strong>Tort Co system</strong></div>`),
-  order: () => shell("PROCESS INTERACTION", "Put encryption in order", "Use the arrow controls to arrange the steps.", `<div class="sortable">${orderItems.map((id, pos) => { const items = ["Information is entered", "An encryption algorithm transforms the information", "Encrypted information is stored or transmitted", "Authorized users use a key to decrypt and access it"]; return `<article class="sort-card"><h3>Position ${pos + 1}</h3><p>${items[id]}</p><div class="sort-controls"><button data-move="left" data-pos="${pos}" aria-label="Move step left">←</button><button data-move="right" data-pos="${pos}" aria-label="Move step right">→</button></div></article>`; }).join("")}</div><p class="hint">The key is often more important than the encrypted information itself.</p><button class="primary-button" data-action="check-order">Check order</button><div id="feedback"></div>`),
-  tortco: () => shell("TORT CO EXAMPLE", "Collect less. Protect what remains.", "Tort Co follows a data minimization strategy.", `<div class="image-copy"><div><strong>The less information collected and stored, the lower the overall risk.</strong><p class="lead">Information that is collected still requires protection.</p><p><b>Account information · Authentication data · System logs · Administrative records</b></p></div><img class="media-image" src="assets/shared-responsibility.png" alt="Diverse team collaborating on secure data practices"></div>`),
-  risks: () => shell("SPOT THE RISK", "Which practices create unnecessary risk?", "Select every risky practice, then submit.", `<div class="risk-grid">${[
-    "Storing information in plain text", "Sending information through unsecured channels", "Sharing passwords through email", "Using unauthorized applications", "Assuming vendors automatically encrypt data", "Verifying encryption is enabled"
-  ].map((x, i) => `<label class="risk-option"><input type="checkbox" value="${i}"><span>${x}</span></label>`).join("")}</div><button class="primary-button" data-action="check-risks">Submit selections</button><div id="feedback"></div>`),
-  developerDecision: () => shell("SCENARIO DECISION", "A developer stores user information in a plain-text file", "What is the risk?", `${answersHtml(["No risk exists.", "Information could be exposed if the server is compromised.", "Encryption only applies to healthcare organizations."])}<button class="primary-button submit-answer" data-correct="1" data-key="developerDecision">Submit decision</button><div id="feedback"></div>`),
-  responsibilities: () => shell("ROLE-BASED INTERACTION", "What is your responsibility?", "Open all three roles to compare responsibilities.", `<div class="tab-row">${[
-    ["all", "All team members", "Follow approved procedures. Report suspected concerns. Use approved tools and systems."], ["manager", "Managers", "Promote secure data handling. Support compliance with organizational policies."], ["technical", "Technical teams", "Implement approved encryption controls. Review systems for security weaknesses."]
-  ].map(x => `<button class="tab-button ${(state.interactions.roleTabs || []).includes(x[0]) ? "opened" : ""}" data-role-tab="${x[0]}"><h3>${x[1]}</h3><p>${x[2]}</p></button>`).join("")}</div><p class="hint" id="roleStatus">${(state.interactions.roleTabs || []).length} of 3 roles opened</p>`),
-  recap: () => shell("KEY TAKEAWAYS", "Before the quiz, remember four things", "", `<div class="takeaways">${[
-    "Encryption protects information from unauthorized access.", "Use encryption whenever sensitive information is stored or transmitted.", "Encryption reduces risk and helps maintain user trust.", "Every team member plays a role in protecting information."
-  ].map((x, i) => `<div class="takeaway"><span class="number">${i + 1}</span><span>${x}</span></div>`).join("")}</div>`, "dark-lesson"),
-  quiz: () => renderQuiz(),
-  completion: () => renderCompletion()
-};
-
-function renderVideo(key, kicker, heading, lead, src, captions) {
-  return shell(kicker, heading, lead, `<div class="video-shell"><div class="video-copy"><h3>Animated explainer</h3><p>Play the complete segment to unlock Continue.</p><button class="primary-button video-play" data-video="${key}">${state.videos[key] ? "Replay" : "Play"}</button><div class="video-progress"><span style="width:${state.videos[key] ? 100 : 0}%"></span></div><p class="hint">Captions and narration transcript are available.</p></div><div class="video-frame"><img src="${src}" alt=""><div class="video-caption">${captions[0]}</div></div></div>`);
-}
-
-const quiz = [
-  { q: "What is encryption?", a: ["A backup process", "Converting information into a protected format", "A type of password"], correct: 1 },
-  { q: "Which type protects information moving between systems?", a: ["Encryption at rest", "Encryption in transit", "Physical security"], correct: 1 },
-  { q: "Encryption eliminates all security risks.", a: ["True", "False"], correct: 1 },
-  { q: "A vendor says encryption is automatic. What should you do?", a: ["Assume it is enabled", "Verify the control and approved configuration", "Share data first and check later"], correct: 1 },
-  { q: "A company laptop is missing. What should you do?", a: ["Wait until tomorrow", "Report it quickly, even if encrypted", "No report is needed"], correct: 1 }
-];
-
-function renderQuiz() {
-  if (state.passed) return shell("FINAL QUIZ", "You passed", `Score: ${state.quizScore} of 5`, `<div class="feedback">Your passing score has been saved. Continue to complete the module.</div>`);
-  const i = state.quizIndex;
-  const q = quiz[i];
-  return shell("END-OF-MODULE QUIZ", q.q, "Select one answer.", `<div class="quiz-question"><div class="quiz-status"><span>Question ${i + 1} of 5</span><span>Passing score: 80%</span></div>${answersHtml(q.a)}<button class="primary-button" data-action="submit-quiz">Submit answer</button><div id="feedback"></div></div>`);
-}
-
-function completionRequirements() {
-  const interactions = ["definitionCheck", "laptopDecision", "types", "order", "risks", "developerDecision", "responsibilities"];
-  return {
-    slides: new Set(state.visited).size === lessons.length,
-    interactions: interactions.every(isDone),
-    videos: state.videos.video1 && state.videos.video2,
-    quiz: state.passed
-  };
-}
-
-function renderCompletion() {
-  const req = completionRequirements();
-  const complete = Object.values(req).every(Boolean);
-  if (complete && !state.completedAt) { state.completedAt = new Date().toISOString(); saveState(); }
-  return shell("MODULE COMPLETE", "Encryption & Data Protection", "Your course progress is stored on this device.", `<div class="completion-panel"><div class="completion-list"><div class="completion-row"><span>Slides viewed</span><b>${new Set(state.visited).size} of ${lessons.length}</b></div><div class="completion-row"><span>Required interactions</span><b>${req.interactions ? "7 of 7" : "Incomplete"}</b></div><div class="completion-row"><span>Animated explainers</span><b>${req.videos ? "2 of 2" : "Incomplete"}</b></div><div class="completion-row"><span>Final quiz</span><b>${state.quizScore}/5</b></div><label for="learnerName">Learner name</label><input class="name-field" id="learnerName" placeholder="Enter name for completion record"></div><div class="status-card"><span>COMPLETION STATUS</span><strong>${complete ? "COMPLETE" : "IN PROGRESS"}</strong><p>Next: Access Control & Identity Management</p><button class="primary-button" data-action="download" ${complete ? "" : "disabled"}>Download record</button></div></div>`, "dark-lesson");
-}
-
-function bindLessonEvents() {
-  document.querySelectorAll("[data-role]").forEach(b => b.addEventListener("click", () => { state.role = b.dataset.role; saveState(); render(); }));
-  document.querySelector("[data-action='start']")?.addEventListener("click", () => go(1));
-  document.querySelectorAll(".answer").forEach(b => b.addEventListener("click", () => { selectedAnswer = Number(b.dataset.answer); document.querySelectorAll(".answer").forEach(x => x.classList.toggle("selected", x === b)); }));
-  document.querySelectorAll(".submit-answer").forEach(b => b.addEventListener("click", () => submitAnswer(b)));
-  document.querySelector(".video-play")?.addEventListener("click", e => playVideo(e.currentTarget.dataset.video));
-  document.querySelectorAll("[data-tab]").forEach(b => b.addEventListener("click", () => openTab(b.dataset.tab, "typeTabs", "tabStatus", 3, "types")));
-  document.querySelectorAll("[data-role-tab]").forEach(b => b.addEventListener("click", () => openTab(b.dataset.roleTab, "roleTabs", "roleStatus", 3, "responsibilities")));
-  document.querySelectorAll("[data-move]").forEach(b => b.addEventListener("click", () => moveOrder(Number(b.dataset.pos), b.dataset.move)));
-  document.querySelector("[data-action='check-order']")?.addEventListener("click", checkOrder);
-  document.querySelector("[data-action='check-risks']")?.addEventListener("click", checkRisks);
-  document.querySelector("[data-action='submit-quiz']")?.addEventListener("click", submitQuiz);
-  document.querySelector("[data-action='download']")?.addEventListener("click", downloadRecord);
-}
-
-function submitAnswer(button) {
-  if (selectedAnswer === null) return showToast("Select an answer first.");
-  const correct = Number(button.dataset.correct);
-  const feedback = document.querySelector("#feedback");
-  document.querySelectorAll(".answer").forEach((x, i) => x.classList.add(i === correct ? "correct" : i === selectedAnswer ? "incorrect" : ""));
-  if (selectedAnswer === correct) {
-    feedback.className = "feedback";
-    feedback.textContent = "Correct. The protected information requires the correct key for authorized access.";
-    markInteraction(button.dataset.key);
-  } else {
-    feedback.className = "feedback error";
-    feedback.textContent = "Not quite. Review the explanation and try again.";
-  }
-}
-
-function playVideo(key) {
-  clearInterval(activeVideoTimer);
-  const frame = document.querySelector(".video-frame");
-  const bar = document.querySelector(".video-progress span");
-  const caption = document.querySelector(".video-caption");
-  const captions = key === "video1" ? ["Readable information enters the process.", "An algorithm transforms the data.", "The correct key enables authorized access.", "Encrypted data is unusable to unauthorized people."] : ["A company device is missing.", "Encryption protects stored information.", "Reporting is still required.", "Fast reporting helps Tort Co respond."];
-  let tick = 0;
-  frame.classList.add("playing");
-  activeVideoTimer = setInterval(() => {
-    tick += 1;
-    const value = Math.min(100, tick * 2);
-    bar.style.width = `${value}%`;
-    caption.textContent = captions[Math.min(3, Math.floor(value / 25))];
-    if (value >= 100) {
-      clearInterval(activeVideoTimer);
-      frame.classList.remove("playing");
-      state.videos[key] = true;
-      saveState();
-      updateControls();
-      showToast("Explainer complete. Continue is unlocked.");
-    }
-  }, 180);
-}
-
-function openTab(value, listKey, statusId, total, completionKey) {
-  const list = new Set(state.interactions[listKey] || []);
-  list.add(value);
-  state.interactions[listKey] = [...list];
-  if (list.size === total) state.interactions[completionKey] = true;
-  saveState();
-  render();
-}
-
-function moveOrder(pos, direction) {
-  const target = direction === "left" ? pos - 1 : pos + 1;
-  if (target < 0 || target >= orderItems.length) return;
-  [orderItems[pos], orderItems[target]] = [orderItems[target], orderItems[pos]];
-  render();
-}
-
-function checkOrder() {
-  const correct = orderItems.every((x, i) => x === i);
-  const f = document.querySelector("#feedback");
-  f.className = `feedback ${correct ? "" : "error"}`;
-  f.textContent = correct ? "Correct. The encryption sequence is in order." : "The sequence is not correct yet. Try moving the steps again.";
-  if (correct) markInteraction("order");
-}
-
-function checkRisks() {
-  const selected = [...document.querySelectorAll(".risk-option input:checked")].map(x => Number(x.value)).sort();
-  const correct = selected.length === 5 && selected.every((x, i) => x === i);
-  const f = document.querySelector("#feedback");
-  f.className = `feedback ${correct ? "" : "error"}`;
-  f.textContent = correct ? "Correct. The first five practices create risk; verifying encryption is the safe practice." : "Check your selections. One item describes a safe verification practice.";
-  if (correct) markInteraction("risks");
-}
-
-function submitQuiz() {
-  if (selectedAnswer === null) return showToast("Select an answer first.");
-  const i = state.quizIndex;
-  state.quizAnswers[i] = selectedAnswer;
-  if (selectedAnswer === quiz[i].correct) state.quizScore += 1;
-  if (i < quiz.length - 1) state.quizIndex += 1;
-  else {
-    state.passed = state.quizScore >= 4;
-    if (!state.passed) {
-      state.quizIndex = 0;
-      state.quizAnswers = {};
-      state.quizScore = 0;
-      showToast("Score below 80%. Review and retry the quiz.");
-    }
-  }
-  saveState();
-  render();
-}
-
-function downloadRecord() {
-  const name = document.querySelector("#learnerName").value.trim() || "Learner";
-  const record = { learner: name, course: "Module 1: Encryption & Data Protection", completedAt: state.completedAt, score: `${state.quizScore}/5`, status: "complete", roleLens: state.role };
-  const blob = new Blob([JSON.stringify(record, null, 2)], { type: "application/json" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = `tort-co-module-1-${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}.json`;
-  a.click();
-  URL.revokeObjectURL(a.href);
-}
-
-nextButton.addEventListener("click", () => go(state.current + 1));
-backButton.addEventListener("click", () => go(state.current - 1));
-document.querySelector("#menuButton").addEventListener("click", () => document.querySelector("#sidebar").classList.toggle("open"));
-document.querySelector("#transcriptButton").addEventListener("click", () => transcriptDialog.showModal());
-document.querySelector("#closeTranscript").addEventListener("click", () => transcriptDialog.close());
-document.querySelector("#resetButton").addEventListener("click", () => { localStorage.removeItem(STORAGE_KEY); state = defaultState(); orderItems = [2, 0, 3, 1]; render(); showToast("Course progress reset."); });
-
+function submitAnswer(l){const picked=stage.querySelector("input[type=radio]:checked"),f=stage.querySelector(".feedback");if(!picked){f.textContent="Choose an answer, then submit.";f.className="feedback show warn";return;}const v=Number(picked.value);state.answers[state.i]=v;mark();const ok=v===l.a;f.textContent=ok?(l.why||l.action||"Good choice. That is the strongest response."):"Not quite. Review the risk and try again.";f.className=`feedback show ${ok?"good":"warn"}`;if(!ok){delete state.answers[state.i];state.done=state.done.filter(i=>i!==state.i);}save();updateChrome(l);}
+function scoreQuiz(l){state.quiz=state.quiz||{};const f=stage.querySelector(".quiz-feedback");if(Object.keys(state.quiz).length<l.questions.length){f.textContent="Answer all five questions before scoring.";f.className="feedback show warn";return;}const n=l.questions.filter((q,i)=>state.quiz[i]===q[2]).length;state.score=Math.round(n/l.questions.length*100);if(state.score>=80){mark();f.textContent=`You scored ${state.score}%. You passed and can continue to your certificate.`;f.className="feedback show good";}else{state.done=state.done.filter(i=>i!==state.i);f.textContent=`You scored ${state.score}%. Review your choices and try again. You need 80%.`;f.className="feedback show warn";}save();updateChrome(l);}
+function saveName(){const x=$("learnerName");if(x){state.name=x.value;save();}}
+function downloadRecord(){saveName();if(!state.name?.trim()){showToast("Enter your name first.");$("learnerName").focus();return;}const record={course:"Tort Co - Encryption & Data Protection",learner:state.name.trim(),completed:new Date().toISOString(),score:`${state.score}%`};const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(record,null,2)],{type:"application/json"}));a.download="tort-co-module-1-completion.json";a.click();URL.revokeObjectURL(a.href);}
+function requires(l){return ["role","video","check","scenario","quiz"].includes(l.type);}
+function updateChrome(l){const done=state.done.length,pct=Math.round(done/lessons.length*100);$("progressText").textContent=`${pct}% complete`;$("progressBar").style.width=`${pct}%`;$("counter").textContent=`Lesson ${state.i+1} of ${lessons.length}`;back.disabled=state.i===0;next.hidden=l.type==="complete";next.disabled=(l.type==="role"&&!state.role)||(requires(l)&&!state.done.includes(state.i));next.textContent=state.i===lessons.length-2?"View certificate →":"Continue →";$("transcript").textContent=l.n;outline.innerHTML=lessons.map((x,i)=>`<button data-i="${i}" class="${i===state.i?"active":""} ${state.done.includes(i)?"done":""}"><span>${state.done.includes(i)?"✓":i+1}</span>${esc(x.k)}</button>`).join("");outline.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{state.i=Number(b.dataset.i);save();closeMenu();render();}));}
+function goNext(){const l=lessons[state.i];if(requires(l)&&!state.done.includes(state.i)){showToast("Complete this activity to continue.");return;}mark();if(state.i<lessons.length-1)state.i++;save();render();}
+function showToast(msg){$("toast").textContent=msg;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),2200);}
+function closeMenu(){$("sidebar").classList.remove("open");$("scrim").classList.remove("show");$("menuButton").setAttribute("aria-expanded","false");}
+next.addEventListener("click",goNext);back.addEventListener("click",()=>{if(state.i){state.i--;save();render();}});
+$("transcriptButton").addEventListener("click",()=>$("transcriptDialog").showModal());$("closeTranscript").addEventListener("click",()=>$("transcriptDialog").close());
+$("menuButton").addEventListener("click",()=>{const open=$("sidebar").classList.toggle("open");$("scrim").classList.toggle("show",open);$("menuButton").setAttribute("aria-expanded",String(open));});$("scrim").addEventListener("click",closeMenu);
+$("resetButton").addEventListener("click",()=>{if(confirm("Reset all course progress?")){localStorage.removeItem("tort-course-v2");location.reload();}});
 render();
