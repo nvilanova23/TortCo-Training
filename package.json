@@ -1,0 +1,1 @@
+{"name":"tort-co-encryption-training","version":"1.0.0","private":true,"scripts":{"deploy":"npx wrangler deploy"}}
